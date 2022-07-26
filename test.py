@@ -7,7 +7,7 @@ db = sqlite3.connect("next.db")
 cursor = db.cursor()
 
 cursor.execute("""CREATE TABLE IF NOT EXISTS users(
-    id INTEGER PRIMARY KEY NOT NULL AUTO,
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     tgID INTEGER NOT NULL
 )""")
 
@@ -21,8 +21,8 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS users(
 
 #cursor.execute("""DELETE FROM next WHERE location='BBB'""")
 
-#cursor.execute("""SELECT * FROM users""")
-#data = cursor.fetchall()
-#print(data)
+cursor.execute("""SELECT * FROM next""")
+data = cursor.fetchall()
+print(data)
 
 db.commit()

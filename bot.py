@@ -8,10 +8,8 @@ async def on_shutdown(dp):
     await bot.close()
     await storage.close()
 
-
 #turning on the logging
 logging.basicConfig(level=logging.INFO)
-
 
 if __name__ == "__main__":
     from loader import dp
