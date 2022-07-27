@@ -47,7 +47,9 @@ async def do_spam(message: types.Message, state: FSMContext):
 
     for user in spam_list:
         await bot.send_message(user, text=f"{message.text}")
-        await state.reset_state()
+
+    await bot.send_message(message.from_user.id, text="Рассылка завершена")
+    await state.reset_state()
 
     cursor.close()
 
@@ -117,7 +119,7 @@ async def variable_3(message: types.Message, state: FSMContext):
     await NewDescription.cost.set()
 
 @dp.message_handler(state=NewDescription.cost)
-async def variable_3(message: types.Message, state: FSMContext):
+async def variable_4(message: types.Message, state: FSMContext):
     answer = message.text
 
     await state.update_data(
@@ -130,18 +132,20 @@ async def variable_3(message: types.Message, state: FSMContext):
     await NewDescription.film.set()
 
 @dp.message_handler(state=NewDescription.film)
-async def variable_3(message: types.Message, state: FSMContext):
+async def variable_5(message: types.Message, state: FSMContext):
     answer = message.text
 
     await state.update_data(
         {"film":answer}
     )
 
-    await bot.send_message(message.from_user.id, text="Изменения внесены")
-    await NewDescription.update.set()
+    await NewDescription.check.set()
+    await bot.send_message(message.from_user.id, text="Введите любой символ")
 
-@dp.message_handler(state=NewDescription.update)
-async def variable_3(message: types.Message, state: FSMContext):
+@dp.message_handler(state=NewDescription.check)
+async def variable_6(message: types.Message, state: FSMContext):
+    db = sqlite3.connect("next.db")
+    cursor = db.cursor()
     data = await state.get_data()
     date = data.get("date")
     location = data.get("location")
@@ -149,14 +153,13 @@ async def variable_3(message: types.Message, state: FSMContext):
     cost = data.get("cost")
     film = data.get("film")
 
-    db = sqlite3.connect("next.db")
-    cursor = db.cursor()
     cursor.execute("UPDATE next SET date = ?", [date])
     cursor.execute("UPDATE next SET location = ?", [location])
     cursor.execute("UPDATE next SET places = ?", [places])
     cursor.execute("UPDATE next SET cost = ?", [cost])
     cursor.execute("UPDATE next SET film = ?", [film])
-
     await state.reset_state()
+    await bot.send_message(message.from_user.id, text="Изменения внесены")
+
     db.commit()
     cursor.close()

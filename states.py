@@ -9,7 +9,7 @@ class NewDescription(StatesGroup):
     places = State()
     cost = State()
     film = State()
-    update = State()
+    check = State()
 
 class Places(StatesGroup):
     places = State()
