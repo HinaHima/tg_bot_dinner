@@ -1,9 +1,15 @@
+#Importing the variables to control the bot
 from loader import dp, bot
+#Importing the inline keyboards needed
 import markup
+#The description used in one of the inline keyboard variant, it's static
 import text
 from aiogram import types
+#Importing the database
 import sqlite3
 
+#Different start depending on wether the user is new or not. If not, the new user's id is stored in the database
+# for the spam feature.
 @dp.message_handler(commands=["start"])
 async def welcome(message: types.Message):
     db = sqlite3.connect("next.db")
@@ -23,10 +29,12 @@ async def welcome(message: types.Message):
 
     cursor.close()
 
+#The info about the whole event
 @dp.callback_query_handler(text="btnInfo")
 async def info(message: types.Message):
     await bot.send_message(message.from_user.id, text=f"{text.textInfo}")
 
+#The info about the next event
 @dp.callback_query_handler(text="btnNext")
 async def info(message: types.Message):
     db = sqlite3.connect("next.db")
@@ -48,11 +56,13 @@ async def info(message: types.Message):
 
     cursor.close()
 
+#Going back to the main menu
 @dp.callback_query_handler(text="btnMenu")
 async def menu(message: types.Message):
     await bot.send_message(message.from_user.id, text='Возвращаем Вас в меню.',
                            reply_markup=markup.mainMenu)
 
+#The info about how to register to the next event
 @dp.callback_query_handler(text="btnRegister")
 async def register(message: types.Message):
     db = sqlite3.connect("next.db")
@@ -61,7 +71,7 @@ async def register(message: types.Message):
     places = cursor.fetchone()[2]
     if places != '0 свободных':
         await bot.send_message(message.from_user.id,
-                               text=f"{places} мест. Если хотите записаться, пожалуйста, напишите (тут данные/ссылка на социалки)")
+                               text=f"Если хотите записаться, пожалуйста, напишите (тут данные/ссылка на социалки)")
     else:
         await bot.send_message(message.from_user.id, text="К сожалению, свободных мест нет. (Тут можно вставить необходимый текст)",
                                reply_markup=markup.mainMenu)

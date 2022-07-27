@@ -1,3 +1,4 @@
+#This file is used just to change the database
 #importing the database
 import sqlite3
 
