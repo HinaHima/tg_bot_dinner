@@ -1,18 +1,18 @@
-#importing all we need to use the state machine
+# importing all we need to use the state machine
 import states
 from aiogram import types
-#Importing the variables to control the bot
+# Importing the variables to control the bot
 from loader import dp, bot
-#Importing the database
+# Importing the database
 import sqlite3
-#Importing the inline keyboards needed
+# Importing the inline keyboards needed
 import markup
-#Importing the RAM
+# Importing the RAM
 from aiogram.dispatcher import FSMContext
-#Importing the states needed
+# Importing the states needed
 from states import Spam, NewDescription, Places
 
-#The admin panel
+# The admin panel
 @dp.message_handler(commands=["admin"])
 async def admin(message: types.Message):
     db = sqlite3.connect("next.db")
@@ -31,7 +31,7 @@ async def admin(message: types.Message):
         await bot.send_message(message.from_user.id, text="Вы не имеете доступ к панели администратора.")
     cursor.close()
 
-#The spam button
+# The spam button
 @dp.callback_query_handler(text="btnSpam")
 async def spam(message: types.Message):
     await bot.send_message(message.from_user.id, text="Введите текст рассылки")
@@ -60,7 +60,7 @@ async def do_spam(message: types.Message, state: FSMContext):
 
     cursor.close()
 
-#The button that changes the amount of places (one of the value in the db).
+# The button that changes the amount of places (one of the value in the db).
 @dp.callback_query_handler(text="btnPlaces")
 async def spam(message: types.Message):
     await bot.send_message(message.from_user.id,
@@ -85,7 +85,7 @@ async def places(message: types.Message, state: FSMContext):
     await bot.send_message(message.from_user.id, text="Изменения внесены")
     cursor.close()
 
-#The button that changes a whole line in a database.
+# The button that changes a whole line in a database.
 @dp.callback_query_handler(text="btnDescription")
 async def description(message: types.Message):
     await bot.send_message(message.from_user.id, text="Введите дату")

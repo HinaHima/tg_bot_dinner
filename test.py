@@ -12,6 +12,19 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS users(
     tgID INTEGER NOT NULL
 )""")
 
+cursor.execute("""CREATE TABLE IF NOT EXISTS next(
+    date TEXT NOT NULL,
+    location TEXT NOT NULL,
+    places TEXT NOT NULL,
+    cost TEXT NOT NULL,
+    film TEXT NOT NULL
+)""")
+
+cursor.execute("""CREATE TABLE IF NOT EXISTS admin(
+    name TEXT NOT NULL,
+    tgID INTEGER NOT NULL
+)""")
+
 #info = ["12.12.12", "BBB", "25 свободных", "3.500", "Секрет"]
 
 #admin = ["Boris", 523492225]
@@ -22,8 +35,8 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS users(
 
 #cursor.execute("""DELETE FROM next WHERE location='BBB'""")
 
-cursor.execute("""SELECT * FROM next""")
+cursor.execute("""SELECT name FROM admin WHERE tgID = 523492225""")
 data = cursor.fetchall()
-print(data)
 
+print(data)
 db.commit()

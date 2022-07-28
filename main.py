@@ -1,14 +1,14 @@
-#This is the main file, we run the bot from there.
+# This is the main file, we run the bot from there.
 
-#Importing from the framework the bot executor.
+# Importing from the framework the bot executor.
 from aiogram import executor
-#Importing the logging module so we can track the errors
+# Importing the logging module so we can track the errors
 import logging
-#The handlers help to 'catch' the users' messages and their inline keyboard choices
+# The handlers help to 'catch' the users' messages and their inline keyboard choices
 import casual_handlers
-#Also handlers but for the admins
+# Also handlers but for the admins
 import admin
-#Importing the variables to control the bot
+# Importing the variables to control the bot
 from loader import dp, bot, storage
 
 #turning on the logging
